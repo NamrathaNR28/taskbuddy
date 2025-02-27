@@ -4,6 +4,7 @@ import './Style.css';
 import TaskForm from './Components/TaskForm';
 import TaskList from './Components/TaskList';
 
+
 export default function App() {
   let [tasks, setTask] = useState(() => {
     return JSON.parse(localStorage.getItem("tasks")) || []
@@ -43,7 +44,15 @@ export default function App() {
       <TaskForm addTask = {addTask}/>
       <TaskList tasks = {tasks} updatetask={updatetask} deleteTask = {deleteTask}/>
 
-      <button className='clear-btn' onClick = {clearTask}>Clear all Tasks</button>
+      
+
+       
+            <button className="clear-btn" onClick={clearTask}>
+                Clear All Tasks
+            </button>
+    
+
+      
       </div>
   )
 }

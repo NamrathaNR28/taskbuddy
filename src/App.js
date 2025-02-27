@@ -1,35 +1,37 @@
-import { useState, useEffect } from "react";
-import TaskForm from "./Components/TaskForm";
+import { useState } from 'react';
+import { useEffect } from 'react';
 import './Style.css';
-import TaskList from "./Components/TaskList";
-import ProgressTracker from "./Components/ProgressTracker";
+import TaskForm from './Components/TaskForm';
+import TaskList from './Components/TaskList';
 
-function App() {
-  const [tasks, setTasks] = useState([]);
-
+export default function App() {
+  let [tasks, setTask] = useState(() => {
+    return JSON.parse(localStorage.getItem("tasks")) || []
+  });
+  
   useEffect(() => {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
+    localStorage.setItem('tasks', JSON.stringify(tasks));
   }, [tasks]);
 
-  const addTask = (task)=>{
-    setTasks([...tasks,task])
-  };
+  const addTask = (task)=> {
+    setTask([...tasks, task]) //.,.tasks will create the copy of exsisting array and add task to tasks array.The updated array is set to tasks 
+  }
 
-  const updateTask = (index, updatedTask) => {
-    const newTasks = [...tasks];
-    newTasks[index] = updatedTask;
-    setTasks(newTasks);
-  };
+  const updatetask = (index, updatedtask) => {
+    let newtask = [...tasks];
+    newtask[index] = updatedtask;
+    setTask(newtask)
+  }
 
   const deleteTask = (index) => {
-    setTasks(tasks.filter((_, i) => i !== index));
-  };
+    setTask(tasks.filter((_,i) => i != index))
+  }
 
-  const clearTasks = () => {
-    setTasks([]);
-  };
+  const clearTask = () => {
+    setTask([]);
+  }
   return (
-    <div className='App'>
+    <div className = 'App'>
       <header class="header">
   <div class="header-container">
     <h1 class="title">
@@ -38,22 +40,10 @@ function App() {
     <p class="tagline">Your friendly task manager</p>
   </div>
 </header>
-      <TaskForm addTask = {addTask} />
-      <TaskList
-        tasks={tasks}
-        updateTask={updateTask}
-        deleteTask={deleteTask}
-      />
-      <ProgressTracker tasks={tasks} />
+      <TaskForm addTask = {addTask}/>
+      <TaskList tasks = {tasks} updatetask={updatetask} deleteTask = {deleteTask}/>
 
-      {tasks.length>0 && (
-        <button className="clear-btn" onClick={clearTasks}>
-          Clear All Tasks
-        </button>
-       )}
-
-    </div>
-  );
+      <button className='clear-btn' onClick = {clearTask}>Clear all Tasks</button>
+      </div>
+  )
 }
-
-export default App;
